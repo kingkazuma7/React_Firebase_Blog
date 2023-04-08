@@ -1,15 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { auth, db } from "../firebase";
 import "./Home.scss";
 
 function Home() {
   const [postList, setPostList] = useState([]);
 
+  // useEffect(() => {
+  //   const getPosts = async () => {
+  //     const data = await getDocs(collection(db, "posts"));
+  //     setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  //   };
+  //   getPosts();
+  // }, []);
+
   useEffect(() => {
     const getPosts = async () => {
-      const data = await getDocs(collection(db, "posts"));
-      setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      const data = await getDocs(query(collection(db, "posts"), orderBy("createdAt", "desc")));
+      const posts = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+      setPostList(posts);
     };
     getPosts();
   }, []);

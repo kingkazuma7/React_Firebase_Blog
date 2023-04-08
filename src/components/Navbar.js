@@ -9,7 +9,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = ({ isAuth }) => {
-  console.log(isAuth);
   return (
     <nav>
       <Link to="/">
